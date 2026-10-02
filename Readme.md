@@ -1,0 +1,20 @@
+ FName
+ PhoneNumber
+ Email
+ Address
+ DateOfEmployment
+ Skill
+ ExperienceLevel
+ AvailabilityStatus
+ Status
+
+ TowerId
+  SiteName
+  Location
+  State
+  Latitude
+  Longitude
+  TowerType
+  TowerHeight
+  InstallationDate
+  Status
