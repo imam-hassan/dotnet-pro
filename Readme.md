@@ -18,3 +18,9 @@
   TowerHeight
   InstallationDate
   Status
+
+  i will another table for assign
+
+  these following Details will be inside of it
+  # Technician
+  # and Job

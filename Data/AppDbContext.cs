@@ -11,4 +11,5 @@ public class AppDbContext: DbContext
 
     public DbSet<Technician> Technicians {get; set;}
     public DbSet<Tower> Towers {get; set;}
+    public DbSet<MaintenanceJob> MaintenanceJobs{get;set;}
 }
