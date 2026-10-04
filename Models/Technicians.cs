@@ -11,7 +11,7 @@ public enum AvailableStatus
 
 public enum Availability
 {
-    Available,       // Fixed spelling
+    Available,       
     Busy,
     OnLeave
 }
@@ -23,7 +23,7 @@ public enum Specialization
     Rf,
     Power_Systems,
     GeneratorMaintenance,
-    TowerMaintenance // Fixed spelling
+    TowerMaintenance 
 }
 
 public class Technician 
@@ -64,4 +64,5 @@ public class Technician
     [Required(ErrorMessage = "Available Status Is Required")]
     [Range(0, 1, ErrorMessage = "You sent an invalid number for Status (Must be 0-1)")]
     public AvailableStatus Status { get; set; } = AvailableStatus.Active;
+    public ICollection<Assign> Assigments{get; set;} = new HashSet<Assign> ();
 }
