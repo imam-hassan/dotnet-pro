@@ -32,6 +32,7 @@ public class AppDbContext: DbContext
         // To make sure that a technician can not same job twice
         modelBuilder.Entity<Assign>()
         .HasIndex(a=> new {a.TechnicianId, a.MaintenanceJobId})
+        .IsUnique()
         .IsUnique();
     }
 }

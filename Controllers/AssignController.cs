@@ -26,10 +26,7 @@ public class AssignController:ControllerBase
 
           return CreatedAtAction(nameof(GetAssign), new{id=assign.Id},assign);
     }
-
-
-
-    
+  
     [HttpGet("{id}")]
     public async Task<IActionResult> GetAssign(int id)
     {
@@ -41,4 +38,17 @@ public class AssignController:ControllerBase
 
         return Ok(assign);
     }
+    [HttpDelete("{id}")]
+    public async Task<IActionResult> DeleteAssign(int id)
+    {
+        var ass = await _context.Assigments.FindAsync(id);
+        if (ass == null)
+        {
+            return NotFound();
+        }
+        _context.Assigments.Remove(ass);
+       await  _context.SaveChangesAsync();
+       return Ok("Deleted Successfully");
+    }
+    
 }

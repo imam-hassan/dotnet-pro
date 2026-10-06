@@ -38,24 +38,54 @@ public class TechnicianController: ControllerBase
     [HttpGet]
     public async Task<IActionResult> GetTechnicians()
     {
-        var technicains = await _context.Technicians.ToListAsync();
-        if (technicains == null)
-        {
-            return NotFound();
-        }
+        var technicains = await _context.Technicians
+                               .Select(t=> new
+                               {
+                                      FullName = t.FName,
+                      PhoneNumber = t.PhoneNumber,
+                      Email = t.Email,
+                      curentJobs = t.Assigments
+                                    .Where(a => a.MaintenanceJob != null)
+                                    .Select(a => new
+                                    {
+                                        JobTitle = a.MaintenanceJob.JobTitle, 
+                                        PriorityStatus = a.MaintenanceJob.Priority,
+                                        DateAssigned = a.DateAssigned
+                                    })
+                               }).ToListAsync();
+                                
+                            
         return Ok(technicains);
     }
-    [HttpGet("{id}")]
-    public async Task<IActionResult> GetTechnician (int id)
-    {
-        var tech = await _context.Technicians.FindAsync(id);
-        if (tech == null)
-        {
-            return BadRequest();
-        }
+[HttpGet("{id}")]
+public async Task<IActionResult> GetTechnician(int id)
+{
+    var tech = await _context.Technicians
+                  .Where(t => t.Id == id)
+                  .Select(t => new
+                  {
+                      FullName = t.FName,
+                      PhoneNumber = t.PhoneNumber,
+                      Email = t.Email,
+                      curentJobs = t.Assigments
+                                    .Where(a => a.MaintenanceJob != null)
+                                    .Select(a => new
+                                    {
+                                        JobTitle = a.MaintenanceJob.JobTitle, 
+                                        PriorityStatus = a.MaintenanceJob.Priority,
+                                        DateAssigned = a.DateAssigned
+                                    }).ToList()
+                  }).FirstOrDefaultAsync();
 
-        return Ok(tech);
+    if (tech == null)
+    {
+        return NotFound();
     }
+
+
+    return Ok(tech);
+}
+
     [HttpPut("{id}")]
     public async Task<IActionResult> UpdateTechnician(int id, Technician technician)
     {

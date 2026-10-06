@@ -62,5 +62,5 @@ public class MaintenanceJob
 
     [Required(ErrorMessage = "Remarks are required.")]
     public string Remarks { get; set; } = string.Empty;
-    public ICollection<Assign> Assigments{get; set;} = new HashSet<Assign>();
+    public ICollection<Assign> Assigments { get; set; } = new HashSet<Assign>();
 }

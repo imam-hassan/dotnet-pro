@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using dotnet_pro.Data;
 
@@ -11,9 +12,11 @@ using dotnet_pro.Data;
 namespace dotnet_pro.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20261006151736_Deleted some part of the model")]
+    partial class Deletedsomepartofthemodel
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -29,9 +32,6 @@ namespace dotnet_pro.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime>("DateAssigned")
-                        .HasColumnType("datetime2");
 
                     b.Property<int>("MaintenanceJobId")
                         .HasColumnType("int");
@@ -200,7 +200,7 @@ namespace dotnet_pro.Migrations
             modelBuilder.Entity("dotnet_pro.Model.Assign", b =>
                 {
                     b.HasOne("dotnet_pro.Model.MaintenanceJob", "MaintenanceJob")
-                        .WithMany("Assigments")
+                        .WithMany()
                         .HasForeignKey("MaintenanceJobId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -214,11 +214,6 @@ namespace dotnet_pro.Migrations
                     b.Navigation("MaintenanceJob");
 
                     b.Navigation("Technician");
-                });
-
-            modelBuilder.Entity("dotnet_pro.Model.MaintenanceJob", b =>
-                {
-                    b.Navigation("Assigments");
                 });
 
             modelBuilder.Entity("dotnet_pro.Model.Technician", b =>
