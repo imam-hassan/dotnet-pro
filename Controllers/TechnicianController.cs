@@ -1,8 +1,10 @@
 using dotnet_pro.Data;
 using dotnet_pro.Model;
+using dotnet_pro.DTOs;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Identity.Client;
+
 
 [ApiController]
 [Route("/api/technicians")]
@@ -16,19 +18,27 @@ public class TechnicianController: ControllerBase
         _context = context;
     }
     [HttpPost]
-    public async Task<IActionResult> CreateTechnician(Technician technician)
+    public async Task<IActionResult> CreateTechnician(Technician TechnicianCreateDto)
     {
+      var val =await _context.Technicians.AnyAsync(u => u.PhoneNumber == TechnicianCreateDto.PhoneNumber);
+      var EmailExist =await _context.Technicians.AnyAsync(u => u.Email == TechnicianCreateDto.Email);
+        if (EmailExist ){
+        return BadRequest("Email Has Been Taken");
+      }
+      if (val ){
+        return BadRequest("Phone Number Has been taken");
+      }
       var  tech = new Technician ()
         {
-                FName= technician.FName,
-                PhoneNumber= technician.PhoneNumber,
-                Email = technician.Email,
-                Address = technician.Address,
-                DateOfEmployment= technician.DateOfEmployment,
-                Skill = technician.Skill,
-                ExperienceLevel = technician.ExperienceLevel,
-                AvailabilityStatus = technician.AvailabilityStatus,
-                Status = technician.Status
+                FName= TechnicianCreateDto.FName,
+                PhoneNumber= TechnicianCreateDto.PhoneNumber,
+                Email = TechnicianCreateDto.Email,
+                Address = TechnicianCreateDto.Address,
+                DateOfEmployment= TechnicianCreateDto.DateOfEmployment,
+                Skill = TechnicianCreateDto.Skill,
+                ExperienceLevel = TechnicianCreateDto.ExperienceLevel,
+                AvailabilityStatus = TechnicianCreateDto.AvailabilityStatus,
+                Status = TechnicianCreateDto.Status
         };
          _context.Technicians.Add(tech);
          await _context.SaveChangesAsync();
